@@ -1,7 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7xtx1lhpgd35"]
+[gd_scene load_steps=10 format=3 uid="uid://c7xtx1lhpgd35"]
 
 [ext_resource type="Texture2D" uid="uid://bbdjo0k8e3kw8" path="res://Recursos/fondo del juego .jpg" id="1_v6npa"]
 [ext_resource type="Texture2D" uid="uid://7a8vjwgdy77v" path="res://Recursos/Imagen para paredes y paleta.png" id="2_t0vkm"]
+[ext_resource type="PackedScene" uid="uid://dny30tc5nc0we" path="res://scenes/player_1.tscn" id="3_p6ibw"]
+[ext_resource type="PackedScene" uid="uid://btia5rxy62taa" path="res://scenes/player_2.tscn" id="4_ppggr"]
+[ext_resource type="PackedScene" uid="uid://ds8alrkly1nxi" path="res://scenes/Pelota.tscn" id="5_c1fw1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4e56a"]
 size = Vector2(32, 658)
@@ -72,3 +75,9 @@ texture = ExtResource("2_t0vkm")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pared_inferior"]
 position = Vector2(-484, 0)
 shape = SubResource("RectangleShape2D_nnlev")
+
+[node name="player_1" parent="." instance=ExtResource("3_p6ibw")]
+
+[node name="player_2" parent="." instance=ExtResource("4_ppggr")]
+
+[node name="Pelota" parent="." instance=ExtResource("5_c1fw1")]
