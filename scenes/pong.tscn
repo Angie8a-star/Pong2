@@ -1,16 +1,24 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7xtx1lhpgd35"]
+[gd_scene load_steps=16 format=3 uid="uid://c7xtx1lhpgd35"]
 
 [ext_resource type="Texture2D" uid="uid://bbdjo0k8e3kw8" path="res://Recursos/fondo del juego .jpg" id="1_v6npa"]
+[ext_resource type="Script" path="res://Script/pong.gd" id="1_vor2g"]
 [ext_resource type="Texture2D" uid="uid://7a8vjwgdy77v" path="res://Recursos/Imagen para paredes y paleta.png" id="2_t0vkm"]
 [ext_resource type="PackedScene" uid="uid://dny30tc5nc0we" path="res://scenes/player_1.tscn" id="3_p6ibw"]
 [ext_resource type="PackedScene" uid="uid://btia5rxy62taa" path="res://scenes/player_2.tscn" id="4_ppggr"]
 [ext_resource type="PackedScene" uid="uid://ds8alrkly1nxi" path="res://scenes/Pelota.tscn" id="5_c1fw1"]
+[ext_resource type="FontFile" uid="uid://7hd2bm4x3p08" path="res://Recursos/Play Pretend.otf" id="6_w46l2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4e56a"]
 size = Vector2(32, 658)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yxn0m"]
+size = Vector2(48, 658)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1jux4"]
 size = Vector2(32, 650)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n158i"]
+size = Vector2(40, 650)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ohl1"]
 size = Vector2(1152, 32)
@@ -18,7 +26,18 @@ size = Vector2(1152, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnlev"]
 size = Vector2(1144, 32)
 
+[sub_resource type="LabelSettings" id="LabelSettings_t8fq8"]
+font = ExtResource("6_w46l2")
+font_size = 35
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pksio"]
+font = ExtResource("6_w46l2")
+font_size = 35
+font_color = Color(0, 0, 0, 1)
+
 [node name="Pong" type="Node2D"]
+script = ExtResource("1_vor2g")
 
 [node name="Fondo" type="Sprite2D" parent="."]
 position = Vector2(577.5, 292)
@@ -37,6 +56,12 @@ texture = ExtResource("2_t0vkm")
 position = Vector2(0, 319)
 shape = SubResource("RectangleShape2D_4e56a")
 
+[node name="PI" type="Area2D" parent="pared_izquierda"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pared_izquierda/PI"]
+position = Vector2(0, 319)
+shape = SubResource("RectangleShape2D_yxn0m")
+
 [node name="pared_derecha" type="StaticBody2D" parent="."]
 position = Vector2(1152, 0)
 metadata/_edit_group_ = true
@@ -49,6 +74,12 @@ texture = ExtResource("2_t0vkm")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pared_derecha"]
 position = Vector2(0, 315)
 shape = SubResource("RectangleShape2D_1jux4")
+
+[node name="PD" type="Area2D" parent="pared_derecha"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pared_derecha/PD"]
+position = Vector2(-4, 315)
+shape = SubResource("RectangleShape2D_n158i")
 
 [node name="pared_superior" type="StaticBody2D" parent="."]
 position = Vector2(1058, 0)
@@ -76,8 +107,28 @@ texture = ExtResource("2_t0vkm")
 position = Vector2(-484, 0)
 shape = SubResource("RectangleShape2D_nnlev")
 
-[node name="player_1" parent="." instance=ExtResource("3_p6ibw")]
+[node name="Puntaje1" type="Label" parent="."]
+offset_left = 272.0
+offset_top = 24.0
+offset_right = 312.0
+offset_bottom = 47.0
+text = "0"
+label_settings = SubResource("LabelSettings_t8fq8")
+
+[node name="Puntaje2" type="Label" parent="."]
+offset_left = 856.0
+offset_top = 24.0
+offset_right = 896.0
+offset_bottom = 57.0
+text = "0
+"
+label_settings = SubResource("LabelSettings_pksio")
 
 [node name="player_2" parent="." instance=ExtResource("4_ppggr")]
 
+[node name="player_1" parent="." instance=ExtResource("3_p6ibw")]
+
 [node name="Pelota" parent="." instance=ExtResource("5_c1fw1")]
+
+[connection signal="body_entered" from="pared_izquierda/PI" to="." method="_on_pi_body_entered"]
+[connection signal="body_entered" from="pared_derecha/PD" to="." method="_on_pd_body_entered"]
