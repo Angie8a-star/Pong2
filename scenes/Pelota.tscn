@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ti5ti"]
 radius = 16.0
 
-[node name="Pelota" type="CharacterBody2D"]
+[node name="Pelota" type="CharacterBody2D" groups=["PELOTA"]]
 position = Vector2(576, 320)
 script = ExtResource("1_2hnk6")
 
