@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://djlqipfya0c16"]
+
+[ext_resource type="Script" path="res://scenes/ganador_2.gd" id="1_fa3ec"]
+[ext_resource type="Texture2D" uid="uid://drbsgytgbv8bp" path="res://Recursos/Fondo final .jpg" id="1_pi0x4"]
+[ext_resource type="FontFile" uid="uid://7hd2bm4x3p08" path="res://Recursos/Play Pretend.otf" id="2_vubdb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4o2mn"]
+font = ExtResource("2_vubdb")
+font_size = 67
+
+[node name="ganador2" type="Node2D"]
+script = ExtResource("1_fa3ec")
+
+[node name="fondo" type="Sprite2D" parent="."]
+position = Vector2(576, 384)
+scale = Vector2(1.8125, 1.81733)
+texture = ExtResource("1_pi0x4")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 96.0
+offset_top = 168.0
+offset_right = 992.0
+offset_bottom = 313.0
+text = "Jugador 2
+ha ganado la partida"
+label_settings = SubResource("LabelSettings_4o2mn")
+
+[node name="volver" type="Button" parent="."]
+offset_left = 384.0
+offset_top = 568.0
+offset_right = 768.0
+offset_bottom = 632.0
+theme_override_fonts/font = ExtResource("2_vubdb")
+theme_override_font_sizes/font_size = 30
+text = "VOLVER A LA PARTIDA "
+
+[connection signal="pressed" from="volver" to="." method="_on_volver_pressed"]

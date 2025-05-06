@@ -1,9 +1,10 @@
 extends CharacterBody2D
 
-var impulse_speed=200
-var speed_increment = 10         
+var impulse_speed=200.0
+var speed_increment = 10.0        
 var time_interval = 5              
-var timer = 0    
+var timer = 0 
+
 
 func _ready():
 	
@@ -30,6 +31,7 @@ func _physics_process(delta):
 	timer += delta
 	
 	if timer >= time_interval:
-		velocity *= 1 + speed_increment / 100
-		
+		velocity *= 1.0 + speed_increment / 100.0
 		timer=0
+		print("Velocidad (después del aumento):", velocity)
+	

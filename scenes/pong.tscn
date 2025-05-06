@@ -1,16 +1,24 @@
-[gd_scene load_steps=10 format=3 uid="uid://c7xtx1lhpgd35"]
+[gd_scene load_steps=16 format=3 uid="uid://c7xtx1lhpgd35"]
 
+[ext_resource type="Script" path="res://Script/pong.gd" id="1_1tfmw"]
 [ext_resource type="Texture2D" uid="uid://bbdjo0k8e3kw8" path="res://Recursos/fondo del juego .jpg" id="1_v6npa"]
 [ext_resource type="Texture2D" uid="uid://7a8vjwgdy77v" path="res://Recursos/Imagen para paredes y paleta.png" id="2_t0vkm"]
 [ext_resource type="PackedScene" uid="uid://dny30tc5nc0we" path="res://scenes/player_1.tscn" id="3_p6ibw"]
 [ext_resource type="PackedScene" uid="uid://btia5rxy62taa" path="res://scenes/player_2.tscn" id="4_ppggr"]
 [ext_resource type="PackedScene" uid="uid://ds8alrkly1nxi" path="res://scenes/Pelota.tscn" id="5_c1fw1"]
+[ext_resource type="FontFile" uid="uid://7hd2bm4x3p08" path="res://Recursos/Play Pretend.otf" id="7_nouys"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4e56a"]
 size = Vector2(32, 658)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3vh3"]
+size = Vector2(40, 658)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1jux4"]
 size = Vector2(32, 650)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6rbk6"]
+size = Vector2(40, 650)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ohl1"]
 size = Vector2(1152, 32)
@@ -18,7 +26,16 @@ size = Vector2(1152, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nnlev"]
 size = Vector2(1144, 32)
 
+[sub_resource type="LabelSettings" id="LabelSettings_efino"]
+font = ExtResource("7_nouys")
+font_size = 50
+
+[sub_resource type="LabelSettings" id="LabelSettings_yssab"]
+font = ExtResource("7_nouys")
+font_size = 50
+
 [node name="Pong" type="Node2D"]
+script = ExtResource("1_1tfmw")
 
 [node name="Fondo" type="Sprite2D" parent="."]
 position = Vector2(577.5, 292)
@@ -26,7 +43,6 @@ scale = Vector2(2.26916, 2.1003)
 texture = ExtResource("1_v6npa")
 
 [node name="pared_izquierda" type="StaticBody2D" parent="."]
-metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="pared_izquierda"]
 position = Vector2(0, 320)
@@ -37,9 +53,14 @@ texture = ExtResource("2_t0vkm")
 position = Vector2(0, 319)
 shape = SubResource("RectangleShape2D_4e56a")
 
+[node name="pared_izquierda" type="Area2D" parent="pared_izquierda"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pared_izquierda/pared_izquierda"]
+position = Vector2(-1, 319)
+shape = SubResource("RectangleShape2D_p3vh3")
+
 [node name="pared_derecha" type="StaticBody2D" parent="."]
 position = Vector2(1152, 0)
-metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="pared_derecha"]
 position = Vector2(0, 320)
@@ -49,6 +70,12 @@ texture = ExtResource("2_t0vkm")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pared_derecha"]
 position = Vector2(0, 315)
 shape = SubResource("RectangleShape2D_1jux4")
+
+[node name="pared_derecha" type="Area2D" parent="pared_derecha"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pared_derecha/pared_derecha"]
+position = Vector2(-1, 315)
+shape = SubResource("RectangleShape2D_6rbk6")
 
 [node name="pared_superior" type="StaticBody2D" parent="."]
 position = Vector2(1058, 0)
@@ -80,4 +107,31 @@ shape = SubResource("RectangleShape2D_nnlev")
 
 [node name="player_2" parent="." instance=ExtResource("4_ppggr")]
 
-[node name="Pelota" parent="." instance=ExtResource("5_c1fw1")]
+[node name="Pelota" parent="." groups=["pelota"] instance=ExtResource("5_c1fw1")]
+
+[node name="Puntaje p1" type="Label" parent="."]
+offset_left = 272.0
+offset_top = 16.0
+offset_right = 312.0
+offset_bottom = 64.0
+text = "0"
+label_settings = SubResource("LabelSettings_efino")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Puntaje p2" type="Label" parent="."]
+offset_left = 840.0
+offset_top = 16.0
+offset_right = 880.0
+offset_bottom = 63.0
+text = "0"
+label_settings = SubResource("LabelSettings_yssab")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="body_entered" from="pared_izquierda/pared_izquierda" to="." method="_on_pared_izquierda_body_entered"]
+[connection signal="body_entered" from="pared_derecha/pared_derecha" to="." method="_on_pared_derecha_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
